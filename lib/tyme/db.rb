@@ -1,4 +1,6 @@
 require 'yaml'
+require 'pathname'
+require 'fileutils'
 
 module Tyme
   class Db
@@ -6,6 +8,9 @@ module Tyme
     # structure
     # :user
     def initialize( file = '/var/lib/tyme/db.yml' )
+      # we check if directory exist, otherwise we create it
+      dir = Pathname.new(file).dirname
+      FileUtils.mkdir_p dir unless Dir.exist? dir
       @db_file = file
       @db = {}
     end

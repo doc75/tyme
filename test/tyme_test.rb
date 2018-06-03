@@ -31,6 +31,20 @@ user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:2
     assert get_db_modif == get_db_expect('empty_db')
   end
 
+  def test_empty_db_without_dir
+    db_path = 'test/tmp/doesnotexist'
+    db_file = db_path + '/db.yml'
+    # make sure directory does not exist before running test
+    assert Dir.exist?(db_path) == false
+
+    db = Tyme::Db.new(db_file)
+    db.add_entry(:user1, :'2018-06-03', 123)
+    db.save
+    res = YAML.load_file(db_file)
+    FileUtils.remove_entry_secure db_path
+    assert res == get_db_expect('empty_db')
+  end
+
   def test_existing_db_overwrite_value
     db_name = 'existing_db_overwrite_value'
     copy_db 'existing_db1'
