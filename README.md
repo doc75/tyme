@@ -1,3 +1,6 @@
+Tyme [![Build Status](https://travis-ci.org/doc75/tyme.svg?branch=master)](https://travis-ci.org/doc75/tyme)
+=======
+
 # Tyme
 
 This gem allows to extract information from the `last` command in GNU/Linux system and store the result in a yaml file. For each users it stores the logged-in duration per day.
