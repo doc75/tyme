@@ -5,6 +5,7 @@ class TymeTest < Minitest::Test
 user10   tty9         2018-06-02T19:07:55+0200 - 2018-06-02T19:41:40+0200  (00:33)
 user20   tty8         2018-06-02T18:59:51+0200 - crash                     (14:01)
 user10   tty8         2018-06-02T17:27:41+0200 - 2018-06-02T17:28:15+0200  (00:00)
+user10   tty6         2018-06-03T11:22:33+0200 - 2018-06-03T11:33:33+0200  (00:11)
 user30   tty7         2018-06-02T17:00:16+0200 - crash                     (16:01)
 user30   tty7         2018-06-02T16:55:11+0200 - 2018-06-02T16:59:55+0200  (00:04)
 user30   tty7         2018-06-02T14:49:39+0200 - 2018-06-02T16:55:06+0200  (02:05)
@@ -19,9 +20,9 @@ user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:2
   end
 
   def test_last_process
-    res = {:user10=>{:"2018-06-02"=>33}, :user20=>{:"2018-06-02"=>841}, :user30=>{:"2018-06-02"=>1408}, :"user-ch"=>{:"2018-06-02"=>13}}
+    db_name = 'last_process'
     last = Tyme::Last.new( StringIO.new(LAST_OUTPUT) )
-    assert last.process == res
+    assert last.process == get_db_expect(db_name)
   end
 
   def test_empty_db

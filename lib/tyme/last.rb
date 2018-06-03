@@ -26,7 +26,8 @@ module Tyme
         data.each do |elt|
           user = elt[:user]
           date = elt[:date]
-          ret[user] ||= { date => 0 }
+          ret[user] ||= {}
+          ret[user][date] ||= 0
           ret[user][date] += elt[:duration] 
         end
         ret
