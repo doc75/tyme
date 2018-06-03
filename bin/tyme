@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+$LOAD_PATH << './lib'
+require 'tyme'
+
+manager = Tyme::Manager.new
+manager.run
+
