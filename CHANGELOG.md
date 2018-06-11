@@ -16,3 +16,7 @@
 
    - Fix crash when several date present for the same user
 
+**v0.2.0**:
+
+   - Fix crash when duration for a user is more than 1 day
+
