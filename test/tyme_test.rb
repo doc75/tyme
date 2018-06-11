@@ -1,17 +1,6 @@
 require "test_helper"
 
 class TymeTest < Minitest::Test
-  LAST_OUTPUT='user30   tty7         2018-06-03T09:02:01+0200   gone - no logout
-user10   tty9         2018-06-02T19:07:55+0200 - 2018-06-02T19:41:40+0200  (00:33)
-user20   tty8         2018-06-02T18:59:51+0200 - crash                     (14:01)
-user10   tty8         2018-06-02T17:27:41+0200 - 2018-06-02T17:28:15+0200  (00:00)
-user10   tty6         2018-06-03T11:22:33+0200 - 2018-06-03T11:33:33+0200  (00:11)
-user30   tty7         2018-06-02T17:00:16+0200 - crash                     (16:01)
-user30   tty7         2018-06-02T16:55:11+0200 - 2018-06-02T16:59:55+0200  (00:04)
-user30   tty7         2018-06-02T14:49:39+0200 - 2018-06-02T16:55:06+0200  (02:05)
-user-ch  tty8         2018-06-02T13:59:14+0200 - 2018-06-02T14:12:41+0200  (00:13)
-user30   tty7         2018-06-02T10:55:38+0200 - 2018-06-02T14:49:33+0200  (03:53)
-user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:25)'
 
   TMP_DB = 'test/tmp/test.yml'
 
@@ -21,7 +10,7 @@ user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:2
 
   def test_last_process
     db_name = 'last_process'
-    last = Tyme::Last.new( StringIO.new(LAST_OUTPUT) )
+    last = Tyme::Last.new( StringIO.new(get_last(1)) )
     assert last.process == get_db_expect(db_name)
   end
 
@@ -75,7 +64,7 @@ user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:2
 
   def test_manager
     db_name = 'manager'
-    manager = Tyme::Manager.new(TMP_DB, StringIO.new(LAST_OUTPUT))
+    manager = Tyme::Manager.new(TMP_DB, StringIO.new(get_last(1)))
     manager.run
     assert get_db_modif == get_db_expect( db_name )
   end
@@ -94,5 +83,9 @@ user30   tty7         2018-06-02T09:30:32+0200 - 2018-06-02T10:55:33+0200  (01:2
 
     def get_db_expect name
       YAML.load_file("test/fixtures/#{name}_result.yml")
+    end
+    
+    def get_last(num)
+      File.read("test/fixtures/last#{num.to_s}.txt")
     end
 end
