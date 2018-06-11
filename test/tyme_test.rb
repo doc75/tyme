@@ -14,6 +14,12 @@ class TymeTest < Minitest::Test
     assert last.process == get_db_expect(db_name)
   end
 
+  def test_last_with_more_than_one_day
+    db_name = 'last_with_more_than_one_day'
+    last = Tyme::Last.new( StringIO.new(get_last(2)) )
+    assert last.process == get_db_expect(db_name)
+  end
+
   def test_empty_db
     db = Tyme::Db.new(TMP_DB)
     db.add_entry(:user1, :'2018-06-03', 123)

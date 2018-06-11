@@ -34,9 +34,12 @@ module Tyme
       end
       
       def parse_line( line )
-        values = line.scan( /(\S+)\s+tty\d+\s+(\S+)\s+-?\s+\S+\s+\((\d+):(\d+)\)/ )[0]
+        values = line.scan( /(\S+)\s+tty\d+\s+(\S+)\s+-?\s+\S+\s+\((\d\+)?(\d+):(\d+)\)/ )[0]
         date = DateTime.parse( values[1] ).strftime('%F')
-        { user: values[0].to_sym,  date: date.to_sym, duration: values[2].to_i*60 + values[3].to_i }
+        duration = values[3].to_i*60 + values[4].to_i
+        # case where duration is more than one day
+        duration += values[2].to_i*1440 if values[2]
+        { user: values[0].to_sym,  date: date.to_sym, duration: duration }
       end
   end
 end
